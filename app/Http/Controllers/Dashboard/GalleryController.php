@@ -70,7 +70,7 @@ class GalleryController extends Controller
      */
     public function edit(GalleryImage $gallery)
     {
-        return view('dashboard.gallery.edit', compact('gallery'));
+        return view('backend.gallery.edit', compact('gallery'));
     }
 
     /**
