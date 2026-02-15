@@ -45,8 +45,8 @@
           <div id="testimonials" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Testimonials</h6>
               <ul class="nav">
-                  <li class="nav-item"><a href="{{ route('admin.sermons.view') }}" class="nav-link">View Testimonials</a>
-                  <li class="nav-item"><a href="{{ route('admin.sermons.create') }}" class="nav-link">Add Testimonial</a>
+                  <li class="nav-item"><a href="{{ route('admin.testimonials.index') }}" class="nav-link">View Testimonials</a>
+                  <li class="nav-item"><a href="{{ route('admin.testimonials.create') }}" class="nav-link">Add Testimonial</a>
                   </li>
               </ul>
           </div><!-- az-iconbar-pane -->

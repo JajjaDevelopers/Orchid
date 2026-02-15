@@ -31,7 +31,19 @@ class PageController extends Controller
      */
     public function testimonials(Request $request)
     {
-        $testimonials = Testimonial::latest()->paginate(9);
+        $query = Testimonial::query()->where('is_active', true);
+
+        // Apply event_type filter if present
+        if ($request->has('event_type') && $request->event_type !== null) {
+            $query->where('event_type', $request->event_type);
+        }
+
+        // Paginate results
+        $testimonials = $query->orderBy('display_order', 'asc')->paginate(9);
+
+        // Preserve query string for pagination links
+        $testimonials->appends($request->only('event_type'));
+
         return view('pages.testimonials', compact('testimonials'));
     }
 

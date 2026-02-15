@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\GalleryController;
 use App\Http\Controllers\Dashboard\NewsletterController;
 use App\Http\Controllers\Dashboard\SermonsController;
 use App\Http\Controllers\Dashboard\SubscriberController;
+use App\Http\Controllers\Dashboard\TestimonialController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
@@ -50,6 +51,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
 //gallery images
  Route::resource('gallery', GalleryController::class);
+ //testimonials
+Route::resource('testimonials', TestimonialController::class);
 
 //Sermons routes
     Route::get('/sermon/view', [SermonsController::class, 'index'])->name('sermons.view');

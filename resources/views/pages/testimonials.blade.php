@@ -15,6 +15,38 @@
                 </p>
             </div>
 
+            {{-- Filter Tabs --}}
+            <div class="flex justify-center gap-3 mb-8 flex-wrap relative border-b border-gray-300 pb-2" id="testimonialTabs">
+                <a href="{{ route('orchid.testimonials') }}"
+                    class="testimonial-tab px-4 py-2 rounded-full text-sm font-medium
+               {{ request()->has('event_type') ? 'text-purple-900 bg-white' : 'text-white bg-purple-900' }}">
+                    All
+                </a>
+
+                @php
+                    $eventTypes = [
+                        'weddings' => 'Weddings',
+                        'introductions' => 'Introductions (Kwanjula/Kuhingira)',
+                        'corporate' => 'Corporate Events',
+                        'sports' => 'Sports Events',
+                        'church' => 'Church Events',
+                        'others' => 'Others',
+                    ];
+                @endphp
+
+                @foreach ($eventTypes as $key => $label)
+                    <a href="{{ route('orchid.testimonials', ['event_type' => $key]) }}"
+                        class="testimonial-tab px-4 py-2 rounded-full text-sm font-medium
+                   {{ request('event_type') == $key ? 'text-white bg-purple-900' : 'text-purple-900 bg-white' }}">
+                        {{ $label }}
+                    </a>
+                @endforeach
+
+                {{-- Sliding underline --}}
+                <span id="testimonialUnderline"
+                    class="absolute bottom-0 h-1 bg-purple-900 rounded transition-all duration-300"></span>
+            </div>
+
             {{-- Testimonials Grid --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
@@ -31,7 +63,7 @@
                             {{ $testimonial->message }}
                         </p>
 
-                        {{-- Rating --}}
+                        {{-- Rating as stars --}}
                         @if ($testimonial->rating)
                             <div class="flex items-center mt-4 space-x-1">
                                 @for ($i = 1; $i <= 5; $i++)
@@ -46,7 +78,6 @@
 
                         {{-- Client Info --}}
                         <div class="mt-6 border-t pt-4 flex items-center gap-4">
-
                             {{-- Client Photo --}}
                             @if ($testimonial->client_photo)
                                 <img src="{{ asset('storage/' . $testimonial->client_photo) }}"
@@ -63,15 +94,11 @@
                                 <h4 class="font-semibold text-gray-900">
                                     {{ $testimonial->client_name }}
                                 </h4>
-
                                 @if ($testimonial->event_type)
-                                    <p class="text-sm text-gray-500">
-                                        {{ $testimonial->event_type }}
-                                    </p>
+                                    <p class="text-sm text-gray-500">{{ $testimonial->event_type }}</p>
                                 @endif
                             </div>
                         </div>
-
                     </div>
                 @empty
                     <p class="col-span-full text-center text-gray-500">
@@ -81,6 +108,49 @@
 
             </div>
 
+            {{-- Pagination --}}
+            <div class="mt-10 flex justify-center">
+                {{ $testimonials->links() }}
+            </div>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+
+            // --- Sliding underline for testimonial tabs ---
+            const $tabs = $('.testimonial-tab');
+            const $underline = $('#testimonialUnderline');
+
+            function moveUnderline($activeTab) {
+                $underline.css({
+                    width: $activeTab.outerWidth() + 'px',
+                    left: $activeTab.position().left + 'px'
+                });
+            }
+
+            // Set initial underline
+            let $activeTab = $tabs.filter(function() {
+                return $(this).hasClass('bg-purple-900') || $(this).hasClass('text-white');
+            }).first();
+            moveUnderline($activeTab);
+
+            // Animate on click
+            $tabs.click(function(e) {
+                e.preventDefault();
+                moveUnderline($(this));
+                window.location.href = $(this).attr('href'); // navigate
+            });
+
+            // Responsive: adjust underline on window resize
+            $(window).resize(function() {
+                moveUnderline($tabs.filter(function() {
+                    return $(this).hasClass('bg-purple-900') || $(this).hasClass('text-white');
+                }).first());
+            });
+
+        });
+    </script>
 @endsection
