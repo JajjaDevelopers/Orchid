@@ -1,17 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\AdminController;
+use App\Http\Controllers\Dashboard\BlogController;
+use App\Http\Controllers\Dashboard\ContactUsController;
+use App\Http\Controllers\Dashboard\EventController;
+use App\Http\Controllers\Dashboard\FrontPageCms;
+use App\Http\Controllers\Dashboard\GalleryController;
+use App\Http\Controllers\Dashboard\NewsletterController;
+use App\Http\Controllers\Dashboard\SermonsController;
+use App\Http\Controllers\Dashboard\SubscriberController;
+use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Dashboard\FrontPageCms;
-use App\Http\Controllers\Dashboard\BlogController;
-use App\Http\Controllers\Dashboard\UserController;
-use App\Http\Controllers\Dashboard\AdminController;
-use App\Http\Controllers\Dashboard\EventController;
-use App\Http\Controllers\Dashboard\SermonsController;
-use App\Http\Controllers\Dashboard\ContactUsController;
-use App\Http\Controllers\Dashboard\NewsletterController;
-use App\Http\Controllers\Dashboard\SubscriberController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'index'])->name('home');
 Route::post('/comment/store/', [BlogController::class, 'storeComment'])->name('comment.store');
@@ -46,6 +47,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
     Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
     Route::delete('/blog/destroy/{id}', [BlogController::class, 'destroy'])->name('blog.destroy');
+
+//gallery images
+ Route::resource('gallery', GalleryController::class);
 
 //Sermons routes
     Route::get('/sermon/view', [SermonsController::class, 'index'])->name('sermons.view');

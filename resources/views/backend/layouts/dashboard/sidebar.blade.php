@@ -1,6 +1,6 @@
   <style>
       .nav i {
-          color: red;
+          color:purple;
       }
   </style>
   <div class="az-iconbar">
@@ -8,10 +8,10 @@
               class="typcn typcn-chart-bar-outline"></i></a>
       <nav class="nav">
           {{-- <a href="#asideDashboard" class="nav-link active" data-toggle="tooltip-primary" title="Dashboard"><i class="typcn typcn-device-laptop"></i></a> --}}
-          <a href="#sermons" class="nav-link" data-toggle="tooltip-primary" title="Sermons"><i
+          <a href="#testimonials" class="nav-link" data-toggle="tooltip-primary" title="Testimonials"><i
                   class="typcn typcn-microphone"></i>
           </a>
-          <a href="#blog" class="nav-link" data-toggle="tooltip-primary" title="Blog"><i
+          <a href="#gallery" class="nav-link" data-toggle="tooltip-primary" title="gallery"><i
                   class="typcn typcn-book"></i></a>
           <a href="#users" class="nav-link" data-toggle="tooltip-primary" title="Users"><i
                   class="typcn typcn-user"></i></a>
@@ -42,19 +42,19 @@
                   <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a></li>
               </ul>
           </div>
-          <div id="sermons" class="az-iconbar-pane">
-              <h6 class="az-iconbar-title">Sermons</h6>
+          <div id="testimonials" class="az-iconbar-pane">
+              <h6 class="az-iconbar-title">Testimonials</h6>
               <ul class="nav">
-                  <li class="nav-item"><a href="{{ route('admin.sermons.view') }}" class="nav-link">View Sermons</a>
-                  <li class="nav-item"><a href="{{ route('admin.sermons.create') }}" class="nav-link">Add Sermon</a>
+                  <li class="nav-item"><a href="{{ route('admin.sermons.view') }}" class="nav-link">View Testimonials</a>
+                  <li class="nav-item"><a href="{{ route('admin.sermons.create') }}" class="nav-link">Add Testimonial</a>
                   </li>
               </ul>
           </div><!-- az-iconbar-pane -->
-          <div id="blog" class="az-iconbar-pane">
-              <h6 class="az-iconbar-title">Blog</h6>
+          <div id="gallery" class="az-iconbar-pane">
+              <h6 class="az-iconbar-title">Gallery</h6>
               <ul class="nav">
-                  <li class="nav-item"><a href="{{ route('admin.blog.view') }}" class="nav-link">View Posts</a></li>
-                  <li class="nav-item"><a href="{{ route('admin.blog.create') }}" class="nav-link">Create Post</a></li>
+                  <li class="nav-item"><a href="{{ route('admin.gallery.index') }}" class="nav-link">View Gallery</a></li>
+                  <li class="nav-item"><a href="{{ route('admin.gallery.create') }}" class="nav-link">Add Photos</a></li>
           </div><!-- az-iconbar-pane -->
           <div id="users" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Users</h6>

@@ -25,7 +25,7 @@
             <ul class="mt-4 space-y-2">
                 <li><a href="{{ route('orchid.aboutus') }}" class="hover:text-yellow-500">Vision</a></li>
                 <li><a href="{{ route('orchid.aboutus') }}" class="hover:text-yellow-500">Mission</a></li>
-                <li><a href="#" class="hover:text-yellow-500">Core Values</a></li>
+                <li><a href="{{ route('orchid.aboutus') }}" class="hover:text-yellow-500">Core Values</a></li>
             </ul>
         </div>
 

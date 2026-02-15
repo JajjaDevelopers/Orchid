@@ -42,9 +42,28 @@ class PageController extends Controller
      */
     public function gallery(Request $request)
     {
-        $images = GalleryImage::latest()->paginate(12);
-        return view('pages.gallery', compact('images'));
+        // Define allowed categories (if no table)
+        $categories = [
+            'weddings' => 'Weddings',
+            'introductions' => 'Introductions (Kwanjula/Kuhingira)',
+            'corporate' => 'Corporate Events',
+            'sports' => 'Sports Events',
+            'church' => 'Church Events',
+            'team' => 'Our Team',
+            'others' => 'Others',
+        ];
+
+        $query = GalleryImage::query();
+
+        if ($request->has('category') && array_key_exists($request->category, $categories)) {
+            $query->where('category', $request->category);
+        }
+
+        $images = $query->latest()->paginate(12)->withQueryString();
+
+        return view('pages.gallery', compact('images', 'categories'));
     }
+
 
     /**
      * Summary of events
