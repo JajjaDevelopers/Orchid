@@ -10,13 +10,11 @@
  * @package    App\Http\Controllers
  * @author     Kibooli Felix <kiboolif@gmail.com>
  * @license  MIT (https://opensource.org/licenses/MIT)
- * @link    https://github.com/KIBOOLI-FELIX/petra.git
  */
 
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Category;
-use App\Models\Mentorship;
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

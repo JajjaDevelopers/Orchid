@@ -10,6 +10,7 @@ class Testimonial extends Model
     protected $fillable = [
         'client_name',
         'client_photo',
+        'phone_contact',
         'event_type',
         'message',
         'rating',

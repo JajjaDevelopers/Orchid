@@ -3,9 +3,37 @@
 @section('title', 'Testimonials')
 @section('content')
     @include('backend.layouts.dashboard.common_nav')
+    @if (isset($link))
+        <div class="alert alert-info d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+
+            <div class="mb-2 mb-md-0" style="flex:1;">
+                <strong>Public Testimonial Link:</strong>
+
+                <div class="input-group mt-2">
+                    <input type="text" class="form-control" id="testimonialLink" value="{{ $link }}" readonly>
+
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" onclick="copyTestimonialLink()">
+                            Copy
+                        </button>
+
+                        <a href="https://wa.me/?text={{ urlencode('Please leave your testimonial here: ' . $link) }}"
+                            target="_blank" class="btn btn-success">
+                            WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    @endif
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Testimonials</h2>
-        <a href="{{ route('admin.testimonials.create') }}" class="btn btn-primary">Add New</a>
+        <div>
+            <a href="{{ route('admin.testimonials.link.generate') }}" class="btn btn-success">
+                <i class="fas fa-link"></i> Generate Testimonial Link
+            </a>
+        </div>
     </div>
 
     @if (session('success'))
@@ -23,7 +51,7 @@
                     <th>Message</th>
                     <th>Rating</th>
                     <th>Active</th>
-                    <th>Order</th>
+                    <th>Contact</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -59,7 +87,7 @@
                                 <span class="badge badge-secondary">No</span>
                             @endif
                         </td>
-                        <td>{{ $testimonial->display_order }}</td>
+                        <td>{{$testimonial->phone_contact}}</td>
                         <td>
                             <a href="{{ route('admin.testimonials.edit', $testimonial) }}"
                                 class="btn btn-sm btn-info">Edit</a>
@@ -83,4 +111,17 @@
             {{ $testimonials->links() }}
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        function copyTestimonialLink() {
+            let copyText = document.getElementById("testimonialLink");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+
+            navigator.clipboard.writeText(copyText.value);
+
+            alert("Link copied to clipboard");
+        }
+    </script>
 @endsection

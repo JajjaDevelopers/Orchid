@@ -24,6 +24,11 @@ Route::prefix('orchid')->name('orchid.')->group(function () {
     Route::get('/contact', [PageController::class, 'contact'])->name('contact');
     Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
     Route::get('/blog/detailed/{slug}', [PageController::class,'blogDetailed'])->name('blog.detailed');
+    Route::get('testimonials/client/{token}', [TestimonialController::class,'publicForm'])
+    ->name('testimonials.token');
+    Route::post('testimonials/store', [TestimonialController::class,'storeTestimonial'])
+    ->name('testimonials.store.public');
+  
 });
 
 
@@ -52,6 +57,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 //gallery images
  Route::resource('gallery', GalleryController::class);
  //testimonials
+Route::get('testimonials/link', [TestimonialController::class,'generateLink'])
+    ->name('testimonials.link.generate');
 Route::resource('testimonials', TestimonialController::class);
 
 //Sermons routes

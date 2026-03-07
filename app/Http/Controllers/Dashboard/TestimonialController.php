@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
+use App\Models\TestimonialLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TestimonialController extends Controller
 {
@@ -15,7 +17,13 @@ class TestimonialController extends Controller
     public function index()
     {
         $testimonials = Testimonial::orderBy('display_order', 'asc')->paginate(10);
-        return view('backend.testimonials.index', compact('testimonials'));
+         $linkRecord = TestimonialLink::where('is_active', true)->first();
+        $link = null;
+
+        if($linkRecord){
+            $link = route('orchid.testimonials.token', ['token' => $linkRecord->token]);
+        }
+        return view('backend.testimonials.index', compact('testimonials','link'));
     }
 
     /**
@@ -36,13 +44,21 @@ class TestimonialController extends Controller
         return view('backend.testimonials.create', compact('eventTypes','page_title'));
     }
 
-    public function store(Request $request)
+    public function storeTestimonial(Request $request)
     {
+        $link = TestimonialLink::where('token',$request->token)
+            ->where('is_active',true)
+            ->first();
+
+        if(!$link){
+            return back()->with('error','Invalid or expired testimonial link.');
+        }
         $request->validate([
             'client_name' => 'required|string|max:255',
             'client_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'event_type' => 'nullable|string|max:255',
             'message' => 'required|string',
+            'phone_contact'=>'nullable|string',
             'rating' => 'nullable|integer|min:1|max:5',
             'display_order' => 'nullable|integer|min:1',
             'is_active' => 'sometimes|boolean',
@@ -52,9 +68,10 @@ class TestimonialController extends Controller
             'client_name' => $request->client_name,
             'event_type' => $request->event_type,
             'message' => $request->message,
+            'phone_contact'=>$request->phone_contact,
             'rating' => $request->rating ?? null,
             'display_order' => $request->display_order ?? 1,
-            'is_active' => $request->has('is_active'),
+            'is_active' => 1,
         ];
 
         // Optional photo
@@ -64,8 +81,8 @@ class TestimonialController extends Controller
 
         Testimonial::create($data);
 
-        return redirect()->route('admin.testimonials.index')
-            ->with('success', 'Testimonial added successfully.');
+        return redirect()->back()
+            ->with('success', 'Thank you Testimonial Received.');
     }
 
 
@@ -94,8 +111,9 @@ class TestimonialController extends Controller
         $request->validate([
             'client_name' => 'required|string|max:255',
             'client_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'event_type' => 'nullable|string|max:255',
+            'event_type' => 'required|string|max:255',
             'message' => 'required|string',
+            'phone_contact'=>'nullable|string',
             'rating' => 'nullable|integer|min:1|max:5',
             'display_order' => 'nullable|integer|min:1',
             'is_active' => 'sometimes|boolean', //
@@ -141,4 +159,37 @@ class TestimonialController extends Controller
         return redirect()->route('admin.testimonials.index')
             ->with('success', 'Testimonial deleted successfully.');
     }
+    /**
+     * Generate Testimonial
+     *
+     * @return void
+     */
+    public function generateLink()
+    {
+        $token = Str::random(32);
+
+        $link = TestimonialLink::first();
+
+        if ($link) {
+            $link->update([
+                'token' => $token,
+                'expires_at' => now()->addMonths(6)
+            ]);
+        } else {
+            $link = TestimonialLink::create([
+                'token' => $token,
+                'expires_at' => now()->addMonths(6)
+            ]);
+        }
+
+        $url = route('orchid.testimonials.token', $token);
+
+        return back()->with('success', 'Share this link with your clients: '.$url);
+    }
+
+    public function publicForm(Request $request,$token){
+        return view('pages.testimonial_form',compact('token'));
+    }
+
+    
 }

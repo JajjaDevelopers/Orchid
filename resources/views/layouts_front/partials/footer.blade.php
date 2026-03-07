@@ -42,6 +42,85 @@
 
     <!-- Copyright -->
     <div class="border-t border-gray-800 mt-10 pt-4 text-center text-gray-500 text-sm">
-        &copy; {{ date('Y') }} All rights reserved | Maintained by <a href="mailto:guugaconsults@gmail.com" title="guugaconsults@gmail.com" class="hover:text-gray-400 hover:underline">Guuga Consults</a>
+        &copy; {{ date('Y') }} All rights reserved | Maintained by <a href="mailto:guugaconsults@gmail.com"
+            title="guugaconsults@gmail.com" class="hover:text-gray-400 hover:underline">Guuga Consults</a>
     </div>
 </footer>
+<a href="https://wa.me/256771627311?text=Hello%20Orchid%20Ushers%20Agency" target="_blank" class="whatsapp-widget">
+
+    <div class="whatsapp-icon">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+
+    <span class="whatsapp-text">Chat with us</span>
+</a>
+<style>
+    .whatsapp-widget {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        display: flex;
+        align-items: center;
+        background: #25D366;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        z-index: 999;
+        transition: all .3s ease;
+    }
+
+    .whatsapp-widget:hover {
+        transform: translateY(-3px);
+        background: #20ba5a;
+    }
+
+    .whatsapp-icon {
+        font-size: 22px;
+    }
+
+    .whatsapp-text {
+        margin-left: 10px;
+        font-size: 14px;
+    }
+
+    /* pulse animation */
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+        }
+
+        70% {
+            box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+        }
+    }
+
+    .whatsapp-widget {
+        animation: pulse 2.5s infinite;
+    }
+
+    /* mobile behaviour */
+
+    @media(max-width:768px) {
+
+        .whatsapp-text {
+            display: none;
+        }
+
+        .whatsapp-widget {
+            width: 55px;
+            height: 55px;
+            justify-content: center;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+    }
+</style>
