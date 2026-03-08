@@ -36,6 +36,7 @@
                 <li><a href="{{ route('orchid.contact') }}" class="hover:text-yellow-500">Contact Us</a></li>
                 <li class="text-yellow-500">Kampala, Uganda</li>
                 <li class="text-yellow-500">+256 771627311</li>
+                 <li><a href="mailto:orchidushers1@gmail.com" class="text-yellow-500 hover:underline">orchidushers1@gmail.com</a></li>
             </ul>
         </div>
     </div>

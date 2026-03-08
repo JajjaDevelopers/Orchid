@@ -71,7 +71,7 @@ class TestimonialController extends Controller
             'phone_contact'=>$request->phone_contact,
             'rating' => $request->rating ?? null,
             'display_order' => $request->display_order ?? 1,
-            'is_active' => 1,
+            'is_active' => 0,
         ];
 
         // Optional photo
