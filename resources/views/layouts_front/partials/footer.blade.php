@@ -43,7 +43,7 @@
     <!-- Copyright -->
     <div class="border-t border-gray-800 mt-10 pt-4 text-center text-gray-500 text-sm">
         &copy; {{ date('Y') }} All rights reserved | Maintained by <a href="mailto:guugaconsults@gmail.com"
-            title="guugaconsults@gmail.com" class="hover:text-gray-400 hover:underline">Guuga Consults</a>
+            title="guugaconsults@gmail.com" class="hover:text-gray-400 hover:underline">Guuga Soft</a>
     </div>
 </footer>
 <a href="https://wa.me/256771627311?text=Hello%20Orchid%20Ushers%20Agency" target="_blank" class="whatsapp-widget">

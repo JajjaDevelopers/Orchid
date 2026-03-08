@@ -1,52 +1,48 @@
-<div class="az-header az-header-dashboard-six" style="background-color:#f5f5f5">
-    <div class="container-fluid">
+<div class="az-header">
+    <div class="container-fluid" style="background-color:purple">
         <div class="az-header-left">
-            <a href="" id="azIconbarShow" class="az-header-menu-icon"><span></span></a>
+            <a href="" id="azSidebarToggle" class="az-header-menu-icon" title="Access Menu"><span></span></a>
         </div><!-- az-header-left -->
-        <div class="az-header-center">
 
+        <div class="az-header-center">
+            <h1 style="color: white;"><strong>ORCHID USHERS & HOSPITALITY AGENCY</strong></h1>
         </div><!-- az-header-center -->
-        @php
-            $profilePicture = Auth::user()->profile_picture;
-        @endphp
-        <div class="az-header-right">
-            <div class="az-header-message">
-                {{-- <a href="#app-chat"><i class="typcn typcn-messages"></i></a> --}}
-            </div><!-- az-header-message -->
+
+        <div class="az-header-right d-flex align-items-center">
+            <!-- Clock -->
+            <div id="liveTime" style="color:white; margin-right:20px; font-weight:bold;"></div>
+
+            <!-- Calculator Button -->
+            <!-- <button id="openCalculator" class="btn btn-light btn-sm" title="Open Calculator">
+                <i class="typcn typcn-calculator"></i>
+            </button> -->
+
+            <div class="az-header-message"></div>
+
             <div class="dropdown az-header-notification">
-                <a href="" class="new"><i class="typcn typcn-bell"></i></a>
-                <div class="dropdown-menu">
-                    <div class="az-dropdown-header mg-b-20 d-sm-none">
-                        <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
-                    </div>
-                    <h6 class="az-notification-title">Notifications</h6>
-                </div><!-- dropdown-menu -->
+                <a href="" class="news"><i class="typcn typcn-bell"></i></a>
             </div><!-- az-header-notification -->
+
             <div class="dropdown az-profile-menu">
-                <a href="" class="az-img-user"><img src="{{ $profilePicture ? asset($profilePicture) : asset('images/profile/profile_dummy.png') }}" alt=""></a>
+                <?php
+                $initials = strtoupper(substr(auth()->user()->first_name, 0, 1) . substr(auth()->user()->last_name, 0, 1));
+                ?>
+                <a href="" class="az-img-user metric-card-value text-white"><?= $initials ?></a>
                 <div class="dropdown-menu">
                     <div class="az-dropdown-header d-sm-none">
                         <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
                     </div>
                     <div class="az-header-profile">
-                        <div class="az-img-user">
-                            <img class="rounded-circle header-profile-user"
-                                src="{{ $profilePicture ? asset($profilePicture) : asset('images/profile/profile_dummy.png') }}"
-                                alt="Admin Picture">
+                        <div class="az-img-user  metric-card-value">
+                            <?= $initials ?>
                         </div><!-- az-img-user -->
-                        <h6>{{ Auth::user()->first_name }}</h6>
-                        <span>{{ Auth::user()->is_admin ? 'Admin' : 'User' }}</span>
-                        <!-- Adjust role display as needed -->
+                        <h6></h6>
+                        <span>{{ Auth::user()->first_name }}</span>
                     </div><!-- az-header-profile -->
 
-                    <a href="{{ route('prbc.profile.edit') }}#" class="dropdown-item"><i
-                            class="typcn typcn-user-outline"></i> My Profile</a>
-                    <a href="#" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account
-                        Settings</a>
-                    <!-- Sign Out Form -->
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
+                    <a href="/profile/edit" class="dropdown-item"><i class="typcn typcn-trash"></i> Edit Profile</a>
+                    <a href="" class="dropdown-item"><i class="typcn typcn-time"></i> Activity Logs</a>
+                    <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> Account Settings</a>
                     <a href="#" class="dropdown-item"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="typcn typcn-power-outline"></i> Sign Out
@@ -56,3 +52,4 @@
         </div><!-- az-header-right -->
     </div><!-- container -->
 </div><!-- az-header -->
+

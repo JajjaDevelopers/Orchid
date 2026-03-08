@@ -153,13 +153,13 @@
 
                     {{-- Clickable Star Rating --}}
                     <div class="mb-6">
-                        <label class="block text-gray-700 font-semibold mb-2">Your Rating</label>
+                        <label class="block text-gray-700 font-semibold mb-2">Your Rating(It Matters a lot!)</label>
                         <div class="flex space-x-2 text-3xl" id="ratingStars">
                             @for ($i = 1; $i <= 5; $i++)
                                 <span class="star text-gray-300" data-value="{{ $i }}">★</span>
                             @endfor
                         </div>
-                        <input type="hidden" name="rating" id="ratingValue" value="5">
+                        <input type="hidden" name="rating" id="ratingValue" value="5" required>
                     </div>
 
                     {{-- Submit --}}

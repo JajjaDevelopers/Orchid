@@ -73,10 +73,10 @@
 
 </head>
 
-<body class="az-body az-light">
+<body class="az-body az-body-sidebar az-light">
     <!--sidebar-->
     @include('backend.layouts.dashboard.sidebar')
-    <div class="az-content az-content-dashboard-six">
+    <div class="az-content az-content-dashboard-five">
         <!--top nav bar-->
         @include('backend.layouts.dashboard.topbar')
 
@@ -148,61 +148,120 @@
     <script src="{{ asset('tinymce/js/tinymce/tinymce.min.js') }}"></script>
     <script>
         $(function() {
-            'use strict'
+            'use strict';
 
-            if ($('.az-iconbar .nav-link.active').length) {
-                var targ = $('.az-iconbar .nav-link.active').attr('href');
-                $(targ).addClass('show');
+            $('#dateToday').text(moment().format('ddd, MMMM DD YYYY'));
 
-                if (window.matchMedia('(min-width: 1200px)').matches) {
-                    $('.az-iconbar-aside').addClass('remove');
-                }
+            // Live Time
+            function updateTime() {
+                const now = new Date();
+                $('#liveTime').text(now.toLocaleTimeString());
+            }
+            setInterval(updateTime, 1000);
+            updateTime();
 
-                if (window.matchMedia('(min-width: 992px)').matches &&
-                    window.matchMedia('(max-width: 1199px)').matches) {
-                    $('.az-iconbar .nav-link.active').removeClass('active');
+            function toastrOptions() {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-center",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "8000",
+                    "timeOut": "9000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
                 }
             }
+            // Check for saved sidebar state in localStorage
+            const isSidebarCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+            if (isSidebarCollapsed) {
+                $('body').addClass('az-sidebar-hide');
+            }
 
-            $('.az-iconbar .nav-link').on('click', function(e) {
+            // Sidebar collapse on page load
+            if (window.matchMedia('(min-width: 992px)').matches) {
+                // $('body').addClass(
+                //     'az-sidebar-hide'); 
+            } else {
+                $('body').removeClass(
+                    'az-sidebar-show'); // Ensure sidebar is not visible on smaller screens by default
+            }
+
+            // Sidebar toggle on click
+            $('#azSidebarToggle').on('click', function(e) {
                 e.preventDefault();
 
-                $(this).addClass('active');
-                $(this).siblings().removeClass('active');
-
-                $('.az-iconbar-aside').addClass('show');
-
-                var targ = $(this).attr('href');
-                $(targ).addClass('show');
-                $(targ).siblings().removeClass('show');
+                if (window.matchMedia('(min-width: 992px)').matches) {
+                    $('body').toggleClass('az-sidebar-hide'); // Toggle for larger screens
+                } else {
+                    $('body').toggleClass('az-sidebar-show'); // Toggle for smaller screens
+                }
             });
 
-            $('.az-iconbar-body .with-sub').on('click', function(e) {
+            // Sidebar submenu functionality
+            $('.az-sidebar .with-sub').on('click', function(e) {
                 e.preventDefault();
-                $(this).parent().addClass('show');
+                $(this).parent().toggleClass('show');
                 $(this).parent().siblings().removeClass('show');
             });
 
-            $('.az-iconbar-toggle-menu').on('click', function(e) {
-                e.preventDefault();
-                if (window.matchMedia('(min-width: 992px)').matches) {
-                    $('.az-iconbar .nav-link.active').removeClass('active');
-                    $('.az-iconbar-aside').removeClass('show');
-                } else {
-                    $('body').removeClass('az-iconbar-show');
+            // Close sidebar when clicking outside of it
+            $(document).on('click touchstart', function(e) {
+                e.stopPropagation();
+
+                if (!$(e.target).closest('.az-header-menu-icon').length) {
+                    var sidebarTarg = $(e.target).closest('.az-sidebar').length;
+                    if (!sidebarTarg) {
+                        $('body').removeClass('az-sidebar-show');
+                    }
                 }
-            })
+            });
 
-            $('#azIconbarShow').on('click', function(e) {
+            // Tab switching functionality
+            $('#navComplex').lightSlider({
+                autoWidth: true,
+                pager: false,
+                slideMargin: 3
+            });
+
+            $('.az-nav-tabs .tab-link').on('click', function(e) {
                 e.preventDefault();
-                $('body').toggleClass('az-iconbar-show');
+                $(this).addClass('active');
+                $(this).parent().siblings().find('.tab-link').removeClass('active');
+
+                var target = $(this).attr('href');
+                $(target).addClass('active');
+                $(target).siblings().removeClass('active');
             });
 
-            // AmazeUI Datetimepicker
-            $('#datetimepicker').datetimepicker({
-                format: 'yyyy-mm-dd hh:ii',
-                autoclose: true
-            });
+            // Date range picker settings (commented out for your reference)
+            /*
+            var dateRangeSettings = {
+              startDate: moment().subtract(6, 'days'),
+              endDate: moment(),
+              ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'This Year': [moment().startOf('year'), moment()],
+                'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+                'Custom Range': [null, null]
+              },
+              alwaysShowCalendars: true,
+              locale: {
+                format: 'MM/DD/YYYY'
+              }
+            };
+            */
         });
     </script>
 
